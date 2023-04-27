@@ -84,7 +84,7 @@ export const GetGameChoices = async (req, res) => {
 
   const allChoices = await quiz.choices;
 
-  const shuffledChoices = await allChoices.sort(() => 0.5 - Math.random());
+  const shuffledChoices = await shuffleArray(allChoices);
 
   const gameChoices = await shuffledChoices.slice(0, quizType);
 
@@ -114,3 +114,14 @@ export const EditChoice = async (req, res) => {
 
   return res.status(200).json({ message: "Choice updated successfully" });
 };
+
+function shuffleArray(arr) {
+  // Dizinin son elemanından başlayarak ilk elemana kadar döngü oluşturuyoruz
+  for (let i = arr.length - 1; i > 0; i--) {
+    // Dizinin 0 ve i arasındaki rastgele bir sayı seçiyoruz
+    const j = Math.floor(Math.random() * (i + 1));
+    // Dizinin i. elemanı ile j. elemanını değiştiriyoruz
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
